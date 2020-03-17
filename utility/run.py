@@ -2,11 +2,12 @@ import sys
 from utility import firebase_config
 from utility.functions import Google_Reviews_generate_modified_json, build_master_json_v0
 
-firebase_DB = firebase_config.Configuration()
-
 if __name__ == '__main__':
-
     try:
+        '''
+            Create connection object to Firebase DB; API capable with GET, PUT, DELETE methods
+        '''
+        firebase_DB = firebase_config.Configuration()
         if sys.argv[1] == "updateJson":
             firebase_DB.put_request("/_modified_reviews_json", Google_Reviews_generate_modified_json())
             firebase_DB.put_request("/v0", build_master_json_v0())

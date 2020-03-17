@@ -1,20 +1,20 @@
 ## :star2: OneStarReview :star2:
 General Setup and Description TBD
 
-### Utility - Functions
+### :hammer_and_wrench: Utility - Functions
 Static methods to transform data, build/sort lists and generate JSON files for upload to Firebase DB
 
-### Utility - Firebase_config 
+### :hammer_and_wrench: Utility - Firebase_config 
 Class to authenticate with Firebase and send API requests (GET, PUT, DELETE)
 
-### Command Line - Arguments
+### :computer: Command Line - Arguments
 ````
 updateJson:  Generate new master_json_v0 and modified_reviews_json file and replace FirebaseDB
 deleteJson:  Delete existing master_json_v0 and modified_reviews_json file in FirebaseDB
 getJson:     Get existing master_json_v0 and modified_reviews_json file in FirebaseDB
 ````
 
-### Command Line - Example
+### :computer: Command Line - Example
 ````
 python run.py updateJson
 ````
