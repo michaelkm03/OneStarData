@@ -9,6 +9,9 @@ Static methods to transform data, build/sort lists and generate JSON files for u
 #### Firebase_config 
 Class to authenticate with Firebase and send API requests (GET, PUT, DELETE)
 
+#### Run
+Script to take in argument variables and run project
+
 ### :computer: Command Line
 
 ````
