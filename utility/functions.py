@@ -1,18 +1,20 @@
+import nltk
 import ast
+
 from _operator import itemgetter
 from random import randrange
-
-import nltk
+from langdetect import detect
 from flask import json
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
 from utility import firebase_config
 
 # Constants
 raw_reviews_json_path = "/Users/victorious/misc/misc/files/google_reviews_raw.json"
 modified_reviews_json_path = "//Users/victorious/OneStarReview/files/google_reviews_modified.json"
-master_json_path_v0 = "/Users/victorious/OneStarReview/files/master_json_v0"
+template_master_json_path_v0 = "/Users/victorious/OneStarReview/files/template_master_json_v0"
 firebase = firebase_config.Configuration()
+nltk.download('vader_lexicon')
+
 
 def get_amazon_item_endpoint(asin):
     url = 'https://www.amazon.com/dp/' + str(asin)
@@ -32,7 +34,6 @@ def Amazon_Reviews_generate_json_files(file_name):
             else:
                 review_map[internal_id] = i
                 review_map["score"] = 0
-
 
     with open('/Users/victorious/misc/misc/files/amazon_reviews_modified.json', 'w') as file:
         json.dump(review_map, file, indent=4)
@@ -80,7 +81,9 @@ def Google_Reviews_generate_modified_json():
                 review_map[str(internal_id)] = i
                 review_map[str(internal_id)]["score"] = 0
                 sentiment = determine_sentiment(review_map[str(internal_id)]["reviewText"])
+                language = detect(str(review_map[str(internal_id)]["reviewText"]))
                 review_map[str(internal_id)]["sentiment"] = sentiment
+                review_map[str(internal_id)]["language"] = language
 
     with open('/Users/victorious/OneStarReview/files/google_reviews_modified.json', 'w') as file:
         json.dump(review_map, file, indent=4)
@@ -135,7 +138,6 @@ def update_user_vote_count(list_of_adds):
 
 
 def build_page_lists():
-
     all_reviews = []
     one_star_review_list = []
 
@@ -168,8 +170,7 @@ def build_page_lists():
 
 
 def build_master_json_v0():
-
-    with open(master_json_path_v0) as template:
+    with open(template_master_json_path_v0) as template:
         master_json_v0 = json.loads(template.read())
 
     topstories, item = build_page_lists()
@@ -197,10 +198,8 @@ def retrieve_random_new_reviews(number_of_random_reviews):
 
 
 def determine_sentiment(text):
-
-    nltk.download('vader_lexicon')
-
     sid = SentimentIntensityAnalyzer()
     sentiment = sid.polarity_scores(str(text))
 
     return sentiment
+
